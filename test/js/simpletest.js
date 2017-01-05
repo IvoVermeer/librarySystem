@@ -1,4 +1,5 @@
 /* exported fail, assert, assertEquals, eq, assertStrictEquals, tests*/
+/*eslint no-console: 0*/
 /*
   Very simple in-browser unit-test library, with zero deps.
 

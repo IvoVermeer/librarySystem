@@ -1,3 +1,4 @@
+/* global librarySystem:false, tests:false, eq:false */
 /*
 basic usage
 
@@ -30,15 +31,15 @@ tests({
 	},
 	'It should be able to load libraries out of order.': function () {
 		librarySystem('workBlurb', ['name', 'company'], function(name, company) {
-		  return name + ' works at ' + company;
+			return name + ' works at ' + company;
 		});
 
 		librarySystem('name', [], function() {
-		  return 'Ivo';
+			return 'Ivo';
 		});
 
 		librarySystem('company', [], function() {
-		  return 'Ardagh Group';
+			return 'Ardagh Group';
 		});
 		eq(librarySystem('workBlurb'), 'Ivo works at Ardagh Group');
 	},
@@ -56,7 +57,6 @@ tests({
 		var timesCallbackHasRun = 0;
 		librarySystem('myCallbackShouldRunOnce', [], function () {
 			timesCallbackHasRun++;
-			return 'I am stored on the cache now';
 		});
 
 		librarySystem('myCallbackShouldRunOnce');
@@ -82,6 +82,5 @@ tests({
 		eq(librarySystem('petTheCat'), 'The cat says: meow');
 		eq(librarySystem('feedTheCat'), 'The cat eats and then says: meow');
 		eq(timesCallbackHasRun, 1);
-
 	}
 });

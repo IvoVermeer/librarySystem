@@ -82,5 +82,15 @@ tests({
 		eq(librarySystem('petTheCat'), 'The cat says: meow');
 		eq(librarySystem('feedTheCat'), 'The cat eats and then says: meow');
 		eq(timesCallbackHasRun, 1);
+	},
+	'It should be able to restore the previous grobal variable.': function() {
+		// preTests.js declares extra vairable:
+		// var librarySystem = 'I am a different librarySystem';
+		librarySystem('noConflict', [], function () {
+			return 'I should be accessible using libraryLoaderSystem';
+		});
+		var libraryLoaderSystem = librarySystem.noConflict();
+		eq(librarySystem, 'I am a different librarySystem');
+		eq(libraryLoaderSystem('noConflict'), 'I should be accessible using libraryLoaderSystem');
 	}
 });

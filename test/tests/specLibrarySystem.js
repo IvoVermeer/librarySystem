@@ -52,6 +52,13 @@ tests({
 			return 'I am the second dependency';
 		});
 		eq(librarySystem('main'), undefined);
+
+		librarySystem('dependencyOne', [], function () {
+			return 'I am the first dependency';
+		});
+
+		eq(librarySystem('main')[0], 'I am the first dependency');
+		eq(librarySystem('main')[1], 'I am the second dependency');
 	},
 	'It should call the libraryName callback once and cache it for later use.': function () {
 		var timesCallbackHasRun = 0;
@@ -92,5 +99,22 @@ tests({
 		var libraryLoaderSystem = librarySystem.noConflict();
 		eq(librarySystem, 'I am a different librarySystem');
 		eq(libraryLoaderSystem('noConflict'), 'I should be accessible using libraryLoaderSystem');
+		/*eslint-disable no-global-assign */
+		librarySystem = libraryLoaderSystem;
+		/*eslint-enable no-global-assign*/
+	},
+	'It should throw a ReferenceError if a library has already been registered.': function () {
+		var errorWasThrown = false;
+		try {
+			librarySystem('noConflict', [], function () {
+				return 'I should throw.';
+			});
+		}
+		catch (e) {
+			eq(Object.getPrototypeOf(e).name, 'ReferenceError');
+			eq(e.message, 'Library noConflict has already been registered');
+			errorWasThrown = true;
+		}
+		eq(errorWasThrown, true);
 	}
 });
